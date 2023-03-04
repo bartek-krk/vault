@@ -26,5 +26,17 @@ if [ ! -d "$dir" ]; then
       exit 0
 fi
 
-# TODO #1: Copy run.sh to dir
-# TODO #2: Update .zshrc to have copied file as source
+# TODO #1: Build and copy Rust app artifacts.
+
+echo "INFO: Copying ./run.sh to $dir/run.sh"
+cp ./run.sh "$dir/run.sh"
+echo "INFO: ./run.sh copied to $dir/run.sh"
+
+echo "INFO: Appending source to $HOME/.zshrc"
+cat ./zshrc_append.sh >> "$HOME/.zshrc"
+echo "INFO: Source appended to $HOME/.zshrc successfully"
+
+echo "INFO: Applying .zshrc changes"
+source "$HOME/.zshrc"
+
+echo "INSTALLATION COMPLETE"
