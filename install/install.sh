@@ -7,6 +7,13 @@
 #
 # Author: Bartosz Lukasik, 2023
 
+os_name=$(uname)
+
+if [ "$os_name" != "Darwin" ]; then
+    echo "ERR: Detected system is $os_name - Cannot run the script"
+    exit 0
+fi
+
 dir="$HOME/vault"
 
 echo "INFO: Installation started in HOME directory ($HOME) !!!"
