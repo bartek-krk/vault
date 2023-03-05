@@ -18,6 +18,19 @@ fn main() {
         env::args().collect()
     );
 
+    if !FileUtil::config_file_exists() {
+        match FileUtil::create_empty_config_file() {
+            Ok(_val) => {
+                ConsolePrinter::warn(String::from(
+                    "Config file did not exist. Created empty one."
+                ))
+            }
+            Err(error_code) => {
+                ConsolePrinter::error(error_code.get_code())
+            }
+        }
+    }
+
     match operation_type {
         Ok(operation) => {
             match operation {

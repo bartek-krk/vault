@@ -20,6 +20,29 @@ impl FileUtil {
         path::Path::new(FileUtil::get_config_file_path().as_str()).exists()
     }
 
+    pub fn create_empty_config_file() -> Result<bool, ErrorCode> {
+        let create_file_result = File::create(FileUtil::get_config_file_path());
+        if create_file_result.is_err() {
+            return Err(ErrorCode::FileWriteFailed);
+        }
+        let mut f_result = std::fs::OpenOptions::new()
+            .write(true)
+            .truncate(true)
+            .open(FileUtil::get_config_file_path());
+        if f_result.is_ok() {
+            let mut f = f_result.unwrap();
+            let write_result = f.write_all(b"{}");
+            if write_result.is_ok() {
+                f.flush();
+                Ok(true)
+            } else {
+                Err(ErrorCode::FileWriteFailed)
+            }
+        } else {
+            Err(ErrorCode::FileWriteFailed)
+        }
+    }
+
     pub fn read_config_json() -> Result<serde_json::Value, ErrorCode> {
         let file_result = File::open(FileUtil::get_config_file_path());
         if file_result.is_ok() {
