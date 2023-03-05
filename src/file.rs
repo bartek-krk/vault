@@ -5,7 +5,7 @@ use std::env;
 use std::fs::File;
 use std::io::{Read, Write};
 use std::path;
-use serde_json::{from_str, Value};
+use serde_json::{from_str, Map, Value};
 
 pub struct FileUtil {}
 
@@ -135,6 +135,31 @@ impl FileUtil {
                 None => Err(ErrorCode::JsonPropertyNotFound),
                 _ => Ok(String::from(found_value.unwrap()))
             }
+        } else {
+            Err(json_result.err().unwrap())
+        }
+    }
+
+    /// Fetches a map of all JSON properties from the file.
+    ///
+    /// # Examples
+    /// ```
+    /// list_all_config_json_properties();
+    /// ```
+    ///
+    /// # Returns
+    /// - `Ok(Value)` if file was read successfully (Value representing
+    /// the JSON file)
+    /// - `Err(ErrorCode::InvalidJsonFormat)` if the JSON file was not formatted
+    /// correctly
+    /// - `Err(ErrorCode::BrokenFile)` if the file seemed to be broken while
+    /// attempting to open it
+    /// - `Err(ErrorCode::FileDoesNotExist)` if the file could not be found
+    pub fn list_all_config_json_properties() -> Result<Map<String, Value>, ErrorCode> {
+        let json_result = FileUtil::read_config_json();
+        if json_result.is_ok() {
+            let mut json = json_result.unwrap();
+            Ok(json.as_object().unwrap().clone())
         } else {
             Err(json_result.err().unwrap())
         }

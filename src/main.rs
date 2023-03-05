@@ -1,5 +1,6 @@
 use std::{env, io};
 use std::fs::File;
+use serde::de::Unexpected::Str;
 use crate::clipboard::Clipboard;
 use crate::cmd::{Cmd, Command};
 use crate::utils::ConsolePrinter;
@@ -78,6 +79,26 @@ fn main() {
                             ConsolePrinter::error(error_code.get_code());
                         }
                     };
+                }
+                Command::ListAll => {
+                    ConsolePrinter::info(String::from(
+                        "Printing all values..."
+                    ));
+                    match FileUtil::list_all_config_json_properties() {
+                        Ok(map) => {
+                            if map.is_empty() {
+                                ConsolePrinter::warn(String::from(
+                                    "No values to print"
+                                ));
+                            }
+                            for iter in map.iter() {
+                                println!("{} -> {}", iter.0, iter.1);
+                            }
+                        }
+                        Err(error_code) => {
+                            ConsolePrinter::error(error_code.get_code());
+                        }
+                    }
                 }
             }
         },

@@ -6,7 +6,8 @@ use crate::error::ErrorCode;
 pub enum Command {
     Help,
     GetValue,
-    AddValue
+    AddValue,
+    ListAll
 }
 
 impl Command {
@@ -24,7 +25,8 @@ impl Command {
         match *self {
             Command::Help => String::from("help"),
             Command::GetValue => String::from("get"),
-            Command::AddValue => String::from("add")
+            Command::AddValue => String::from("add"),
+            Command::ListAll => String::from("ls"),
         }
     }
 
