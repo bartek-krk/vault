@@ -26,7 +26,13 @@ if [ ! -d "$dir" ]; then
       exit 0
 fi
 
-# TODO #1: Build and copy Rust app artifacts.
+echo "INFO: Building application artifacts..."
+cargo build --release
+echo "INFO: Application artifacts built successfully!"
+
+echo "INFO: Copying application artifacts..."
+cp ./../target/release/vault "$dir/vault"
+echo "INFO: Application artifacts copied successfully!"
 
 echo "INFO: Copying ./run.sh to $dir/run.sh"
 cp ./run.sh "$dir/run.sh"
@@ -39,4 +45,4 @@ echo "INFO: Source appended to $HOME/.zshrc successfully"
 echo "INFO: Applying .zshrc changes"
 source "$HOME/.zshrc"
 
-echo "INSTALLATION COMPLETE"
+echo "INSTALLATION COMPLETE (you may need to restart your shell session)"

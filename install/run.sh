@@ -8,7 +8,12 @@
 #
 # Author: Bartosz Lukasik, 2023
 
+dir="$HOME/vault"
+
 function vault() {
-    echo "First arg $1"
-    # TODO #1: Handle arguments and run Rust program.
+  if [ "$2" ]; then
+      "$dir/vault" "$1" "$2"
+      else
+        "$dir/vault" "$1"
+  fi
 }
