@@ -20,7 +20,7 @@ impl FileUtil {
     /// >> /Users/username/vault/vault_config.json
     /// ```
     pub fn get_config_file_path() -> String {
-        format!("{}/{}", env::var("HOME").unwrap(), FileUtil::CONFIG_FILE_FILENAME)
+        format!("{}/vault/{}", env::var("HOME").unwrap(), FileUtil::CONFIG_FILE_FILENAME)
     }
 
     /// Returns the boolean value based on config file
