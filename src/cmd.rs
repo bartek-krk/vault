@@ -10,6 +10,16 @@ pub enum Command {
 }
 
 impl Command {
+    /// Returns command code providable by the user.
+    ///
+    /// # Examples
+    /// ```
+    /// Command::Help.get_command();
+    /// >> "help"
+    /// ```
+    ///
+    /// # Returns
+    /// - `String` command
     pub fn get_command(&self) -> String {
         match *self {
             Command::Help => String::from("help"),
@@ -18,6 +28,16 @@ impl Command {
         }
     }
 
+    /// Determines operation by the command provided by the user.
+    ///
+    /// # Examples
+    /// ```
+    /// get_by_command_str("help");
+    /// >> Command::Help
+    /// ```
+    ///
+    /// # Returns
+    /// - `String` command enum value
     pub fn get_by_command_str(command_str: &str) -> Result<Command, ErrorCode> {
         for command in Command::iter() {
             if command.get_command().eq(command_str) {
@@ -31,6 +51,16 @@ impl Command {
 pub struct Cmd {}
 
 impl Cmd {
+    /// Determines operation type from program arguments.
+    ///
+    /// # Examples
+    /// ```
+    /// resolve_operation_type(env::args().collect());
+    /// >> Command::Help
+    /// ```
+    ///
+    /// # Returns
+    /// - `String` command enum value
     pub fn resolve_operation_type(args: Vec<String>) -> Result<Command, ErrorCode> {
         if args.len() < 2 {
             return Err(ErrorCode::NonexistentArgument);
@@ -40,6 +70,17 @@ impl Cmd {
         }
     }
 
+    /// Determines supplementary argument from program arguments.
+    ///
+    /// # Examples
+    /// ```
+    /// >> vault get key
+    /// get_supplementary_arg(env::args().collect());
+    /// >> "key"
+    /// ```
+    ///
+    /// # Returns
+    /// - `String` supplementary argument provided by the user
     pub fn get_supplementary_arg(args: Vec<String>) -> Result<String, ErrorCode> {
         if args.len() < 3 {
             return Err(ErrorCode::NonexistentArgument);

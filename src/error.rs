@@ -1,3 +1,5 @@
+/// Defines error codes thar can be handled by the
+/// application.
 #[derive(Debug)]
 pub enum ErrorCode {
     FileDoesNotExist,
@@ -10,6 +12,16 @@ pub enum ErrorCode {
 }
 
 impl ErrorCode {
+    /// Returns loggable error description.
+    ///
+    /// # Examples
+    /// ```
+    /// ErrorCode::FileDoesNotExist.get_code();
+    /// >> "File does not exist"
+    /// ```
+    ///
+    /// # Returns
+    /// - `String` error description
     pub fn get_code(&self) -> String {
         match *self {
             ErrorCode::FileDoesNotExist => String::from("File does not exist"),

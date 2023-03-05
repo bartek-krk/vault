@@ -1,6 +1,7 @@
 pub struct Help {}
 
 impl Help {
+    /// Prints help to console.
     pub fn get_help() -> () {
         let help: &str = "
 usage: vault <command> <arg>
