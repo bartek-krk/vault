@@ -5,7 +5,8 @@ pub enum ErrorCode {
     InvalidJsonFormat,
     JsonPropertyNotFound,
     UnsupportedOperation,
-    NonexistentArgument
+    NonexistentArgument,
+    FileWriteFailed
 }
 
 impl ErrorCode {
@@ -16,7 +17,8 @@ impl ErrorCode {
             ErrorCode::InvalidJsonFormat => String::from("JSON file formatted incorrectly"),
             ErrorCode::JsonPropertyNotFound => String::from("JSON property not found in object"),
             ErrorCode::UnsupportedOperation => String::from("Given operation is not supported"),
-            ErrorCode::NonexistentArgument => String::from("Required argument was not provided")
+            ErrorCode::NonexistentArgument => String::from("Required argument was not provided"),
+            ErrorCode::FileWriteFailed => String::from("Writing to file failed"),
         }
     }
 }

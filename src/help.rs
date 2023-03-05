@@ -11,6 +11,11 @@ usage: vault <command> <arg>
 
 2. See help
    vault help
+
+3. Add new value
+   vault add
+   -- the command will then prompt to provide the key
+      and value for new entry
         ";
         println!("{}", help);
     }

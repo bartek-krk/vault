@@ -6,13 +6,15 @@ use crate::error::ErrorCode;
 pub enum Command {
     Help,
     GetValue,
+    AddValue
 }
 
 impl Command {
     pub fn get_command(&self) -> String {
         match *self {
             Command::Help => String::from("help"),
-            Command::GetValue => String::from("get")
+            Command::GetValue => String::from("get"),
+            Command::AddValue => String::from("add")
         }
     }
 

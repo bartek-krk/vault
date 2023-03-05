@@ -1,10 +1,11 @@
+use std::collections::HashMap;
 use crate::error::ErrorCode;
 
 use std::env;
 use std::fs::File;
-use std::io::Read;
+use std::io::{Read, Write};
 use std::path;
-use serde_json::from_str;
+use serde_json::{from_str, Value};
 
 pub struct FileUtil {}
 
@@ -51,6 +52,36 @@ impl FileUtil {
             }
         } else {
             Err(json_result.err().unwrap())
+        }
+    }
+
+    pub fn overwrite_json_file(new_json: Value) -> Result<bool, ErrorCode> {
+        let mut f_result = std::fs::OpenOptions::new()
+            .write(true)
+            .truncate(true)
+            .open(FileUtil::get_config_file_path());
+        if f_result.is_ok() {
+            let mut f = f_result.unwrap();
+            let write_result = f.write_all(serde_json::to_string(&new_json).unwrap().as_bytes());
+            if write_result.is_ok() {
+                f.flush();
+                Ok(true)
+            } else {
+                Err(ErrorCode::FileWriteFailed)
+            }
+        } else {
+            Err(ErrorCode::FileWriteFailed)
+        }
+    }
+
+    pub fn merge(v: &Value, key: String, value: String) -> Value {
+        match v {
+            Value::Object(m) => {
+                let mut m = m.clone();
+                m.insert(key.clone(), Value::String(value.clone()));
+                Value::Object(m)
+            }
+            v => v.clone()
         }
     }
 
