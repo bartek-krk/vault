@@ -1,5 +1,6 @@
 use std::{env, io};
 use std::fs::File;
+use crate::clipboard::Clipboard;
 use crate::cmd::{Cmd, Command};
 use crate::utils::ConsolePrinter;
 use crate::file::FileUtil;
@@ -10,6 +11,7 @@ mod file;
 mod error;
 mod cmd;
 mod help;
+mod clipboard;
 
 fn main() {
     let stdin = io::stdin();
@@ -43,6 +45,8 @@ fn main() {
                             match FileUtil::read_config_json_property(key.as_str()) {
                                 Ok(val) => {
                                     ConsolePrinter::info(format!("Value for key \"{}\" is \"{}\"", key, val));
+                                    Clipboard::copy_to_clipboard(val.as_str());
+                                    ConsolePrinter::info(String::from("Value copied to clipboard!"))
                                 }
                                 Err(error) => {
                                     ConsolePrinter::warn(format!("Key was \"{}\"", key));
